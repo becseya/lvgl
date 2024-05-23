@@ -38,6 +38,12 @@ LVGL has `certified <https://lvgl.io/certificate>`__ one Renesas board so far (m
 
   <iframe width="560" height="315" src="https://www.youtube.com/embed/LHPIqBV_MGA?si=mtW3g-av56bCdR4k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+- 480MHz, Arm Cortex®-M85 core
+- 2MB Code Flash, 1MB SRAM
+- MIPI DSI & Parallel Graphics Expansion Ports
+- 4.5 Inch backlit TFT display, 16.7M display colors
+- 480x854 pixels resolution
+
 Get started with the Renesas ecosystem
 --------------------------------------
 
@@ -45,20 +51,12 @@ The official IDE of Renesas is called `e² studio <https://www.renesas.com/us/en
 
 To get started, just download and install e² studio.
 
-JLink is used for debugging, it can be downloaded [here](https://www.segger.com/downloads/jlink/)
+JLink is used for debugging, it can be downloaded `here <https://www.segger.com/downloads/jlink/`__.
 
-Getting started with LVGL
--------------------------
+Setting up the project
+----------------------
 
 LVGL provides a ready-to-use project for the `EK-RA8D1 <https://www.renesas.com/us/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ek-ra8d1-evaluation-kit-ra8d1-mcu-group>`__ development board. Its main features from the HMI's point of view are:
-
-- 480MHz, Arm Cortex®-M85 core
-- 2MB Code Flash, 1MB SRAM
-- MIPI DSI & Parallel Graphics Expansion Ports
-- 4.5 Inch backlit TFT display, 16.7M display colors
-- 480x854 pixels resolution
-
-**Setting up the project**
 
 - First, clone the ready-to-use `lv_port_renesas_ek-ra8d1 <https://github.com/lvgl/lv_port_renesas_ek-ra8d1.git>`__ repository:
 
@@ -66,13 +64,15 @@ LVGL provides a ready-to-use project for the `EK-RA8D1 <https://www.renesas.com/
 
       git clone https://github.com/lvgl/lv_port_renesas_ek-ra8d1.git --recurse-submodules
 
+   Downloading the `.zip` from GitHub doesn't work as it doesn't download the submodules.
+
 - Open e² studio, go to ``File`` -> ``Import project`` and select ``General`` / ``Exsisting projects into workspace``
 
    .. image:: /misc/renesas/import.png
       :alt: Importing the project
   
   
-- Browse the cloned folder and press ``Finish``
+- Browse the cloned folder (``lv_port_renesas_ek-ra8d1``) and press ``Finish``
 
 - Double click on ``configuration.xml``. This will activate the configuration window.
 
