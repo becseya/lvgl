@@ -74,6 +74,10 @@ lv_fs_res_t lv_fs_open(lv_fs_file_t * file_p, const char * path, lv_fs_mode_t mo
     }
 
     char letter = path[0];
+
+    if(lv_fs_get_driver_prefix_length(path) == 0 && LV_FS_DEFAULT_DRIVE_LETTER != '\0')
+        letter = LV_FS_DEFAULT_DRIVE_LETTER;
+
     lv_fs_drv_t * drv = lv_fs_get_drv(letter);
 
     if(drv == NULL) {
@@ -300,6 +304,10 @@ lv_fs_res_t lv_fs_dir_open(lv_fs_dir_t * rddir_p, const char * path)
     if(path == NULL) return LV_FS_RES_INV_PARAM;
 
     char letter = path[0];
+
+    if(lv_fs_get_driver_prefix_length(path) == 0 && LV_FS_DEFAULT_DRIVE_LETTER != '\0')
+        letter = LV_FS_DEFAULT_DRIVE_LETTER;
+
     lv_fs_drv_t * drv = lv_fs_get_drv(letter);
 
     if(drv == NULL) {
