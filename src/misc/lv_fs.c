@@ -26,6 +26,8 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
+
+static int lv_fs_get_driver_prefix_length(const char * path);
 static const char * lv_fs_get_real_path(const char * path);
 static lv_fs_res_t lv_fs_read_cached(lv_fs_file_t * file_p, void * buf, uint32_t btr, uint32_t * br);
 static lv_fs_res_t lv_fs_write_cached(lv_fs_file_t * file_p, const void * buf, uint32_t btw, uint32_t * bw);
@@ -494,16 +496,33 @@ const char * lv_fs_get_last(const char * path)
  **********************/
 
 /**
+ * Checks if the path starts with a drive prefix (i.e. "X:..." or "Z/...")
+ * @param path path string (E.g. S:/folder/file.txt)
+ * @return number of characters making up the driver prefix (0 means no drive letter in the path)
+ */
+static int lv_fs_get_driver_prefix_length(const char * path)
+{
+    if(path[0] == '\0') return 0;
+
+    if(path[0] < 'A' || 'Z' < path[0]) return 0;
+
+    if(path[1] == ':')
+        return 2;
+    else if(path[1] == '/' || path[1] == '\\')
+        /*For backward compatibility we support dropping : after the drive letter*/
+        return 1;
+    else
+        return 0;
+}
+
+/**
  * Skip the driver letter and the possible : after the letter
  * @param path path string (E.g. S:/folder/file.txt)
  * @return pointer to the beginning of the real path (E.g. /folder/file.txt)
  */
 static const char * lv_fs_get_real_path(const char * path)
 {
-    path++; /*Ignore the driver letter*/
-    if(*path == ':') path++;
-
-    return path;
+    return path + lv_fs_get_driver_prefix_length(path);
 }
 
 static lv_fs_res_t lv_fs_read_cached(lv_fs_file_t * file_p, void * buf, uint32_t btr, uint32_t * br)
