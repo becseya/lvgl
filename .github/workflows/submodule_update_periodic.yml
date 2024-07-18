@@ -1,0 +1,37 @@
+name: Periodic submodule update
+
+on:
+  schedule:
+    - cron: '0 10 1,15 * *' # at 10 o'clock on the 1st and 15th of every month 
+  workflow_dispatch: # allow manual triggering
+
+jobs:
+  update_parent_repos:
+    environment: def 
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parent_repo: [lv_port_pc_eclipse, lv_port_pc_vscode]
+
+    steps:
+      - uses: actions/checkout@v4
+        with: 
+          repository: ${{ vars.ORGANIZATION }}/${{ matrix.parent_repo }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+          submodules: 'recursive'
+      - name: Update submodule
+        run: |
+          git fetch --all -p --recurse-submodules
+
+          git submodule update --recursive --remote
+          #TODO update lv_conf
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes were made."
+          else
+            git config user.email 'lvgl@lvgl.io'
+            git config user.name 'Submodule Bot'
+            git add --all
+            git commit -m 'Update submodule'
+            git push
+          fi
