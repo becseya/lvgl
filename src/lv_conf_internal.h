@@ -3238,6 +3238,14 @@
     #endif
 #endif
 
+#ifndef TEST_VALUE
+    #ifdef CONFIG_TEST_VALUE
+        #define TEST_VALUE CONFIG_TEST_VALUE
+    #else
+        #define TEST_VALUE 2
+    #endif
+#endif
+
 #if LV_USE_LIBINPUT
     #ifndef LV_LIBINPUT_BSD
         #ifdef CONFIG_LV_LIBINPUT_BSD

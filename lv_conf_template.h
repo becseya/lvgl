@@ -979,6 +979,8 @@
 /*Driver for libinput input devices*/
 #define LV_USE_LIBINPUT    0
 
+#define TEST_VALUE 2
+
 #if LV_USE_LIBINPUT
     #define LV_LIBINPUT_BSD    0
 
