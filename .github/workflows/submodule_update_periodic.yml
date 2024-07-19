@@ -1,6 +1,9 @@
 name: Periodic submodule update
 
 on:
+  push:
+    tags:
+      - 'v*.*.*' # on release tags
   schedule:
     - cron: '0 10 1,15 * *' # at 10 o'clock on the 1st and 15th of every month 
   workflow_dispatch: # allow manual triggering
@@ -21,6 +24,8 @@ jobs:
           submodules: 'recursive'
       - name: Update submodule
         run: |
+          echo $GITHUB_REF_NAME
+
           git fetch --all -p --recurse-submodules
           git submodule update --recursive --remote
 
