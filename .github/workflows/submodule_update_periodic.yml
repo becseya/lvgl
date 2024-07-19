@@ -22,16 +22,25 @@ jobs:
       - name: Update submodule
         run: |
           git fetch --all -p --recurse-submodules
-
           git submodule update --recursive --remote
-          #TODO update lv_conf
 
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "No changes were made."
+          CONF_D=$(find . -name lv_conf.defaults)
+
+          if [ -n "$CONF_D" ]; then
+            CONF_C=$(find . -name lv_conf.h)
+            CONF_T=$(find . -name lv_conf_template.h)
+            SUBMODULE_PATH=$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
+            $SUBMODULE_PATH/scripts/generate_lv_conf.py 
           else
+            echo "Skipping config update as defaults are missing" --template "$CONF_D" --config "$CONF_C" --defaults "$CONF_D"
+          fi
+
+          if [ -n "$(git status --porcelain)" ]; then
             git config user.email 'lvgl@lvgl.io'
             git config user.name 'Submodule Bot'
             git add --all
             git commit -m 'Update submodule'
             git push
+          else
+            echo "Skipping commit as no changes were made."
           fi
