@@ -28,10 +28,10 @@ jobs:
           git submodule update --recursive --remote -q
 
 
-
+          git config --file .gitmodules --get-regexp path
           BRANCH="$(git branch --show-current )"
           echo "$BRANCH"
-          SUBMODULE_PATH=$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')
+          SUBMODULE_PATH="$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')"
           echo "$SUBMODULE_PATH"
 
           if echo "$GITHUB_REF_NAME" | grep -Po '^v\d+\.\d+\.\d+$'; then
