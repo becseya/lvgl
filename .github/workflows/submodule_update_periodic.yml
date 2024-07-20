@@ -24,8 +24,8 @@ jobs:
           submodules: 'recursive'
       - name: Update submodule
         run: |
-          git fetch --all -p --recurse-submodules -q
-          git submodule update --recursive --remote -q
+          git fetch --all -p --tags --recurse-submodules -q
+          git submodule update --init --recursive --remote -q
 
 
 
