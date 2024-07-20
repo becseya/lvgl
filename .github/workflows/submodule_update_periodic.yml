@@ -28,21 +28,15 @@ jobs:
           git submodule update --recursive --remote -q
 
 
-          git config --file .gitmodules --get-regexp path
+
           BRANCH="$(git branch --show-current )"
-          echo "$BRANCH"
-          SUBMODULE_PATH="$(git config --file .gitmodules --get-regexp path | awk '{ print $2 }')"
-          echo "$SUBMODULE_PATH"
+          SUBMODULE_PATH="$(git config --file .gitmodules --get-regexp path | grep lvgl.path | awk '{ print $2 }')"
 
           if echo "$GITHUB_REF_NAME" | grep -Po '^v\d+\.\d+\.\d+$'; then
             echo "Release tag detected. Mirroring $TAG on $BRANCH..."
 
             TAG="$GITHUB_REF_NAME"
-            echo "$TAG"
             BRANCH="release/$(echo "$TAG" | grep -Po 'v\d+\.\d+';)"
-            echo "$BRANCH"
-
-            ls -la
 
             cd "$SUBMODULE_PATH"
             git checkout "$TAG"
